@@ -356,8 +356,9 @@ def reconcile(results: dict, expected: dict) -> tuple[str, dict]:
         f"{results['diagnostics.vehicle_offset_mean']:.4f}",
         "",
         "The per-pair AUC (0.5694) and the pooled AUC (0.509) are the *same* "
-        "prediction matrix scored in two response spaces. They are not two "
-        "measurements of the model, and they must never be mixed in one table.",
+        "underlying predictions re-expressed in two response spaces. The two "
+        "shipped matrices are not byte-identical. They are not two independent "
+        "measurements of the model and must never be mixed in one table.",
         "",
         "## The two rows that do not reconcile",
         "",

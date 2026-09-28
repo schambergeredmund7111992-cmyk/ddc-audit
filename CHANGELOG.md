@@ -139,21 +139,21 @@ per cell line — and the documented pooled command uses them.
   `test_matches_the_frozen_reference_outputs` runs everywhere. The live
   comparison remains and skips where the repository is absent, so the suite is
   **71 passed + 1 skipped** on the author's machine and **70 passed + 2 skipped**
-  elsewhere. Exact commands and counts: `VALIDATION.md` §2.
+  elsewhere. Exact commands and counts: `docs/validation.md` §2.
 * Claims about installation were wrong and are corrected throughout: the
   `--no-build-isolation` flag avoids *pip's* build-environment download, it does
   not make dependency installation offline. Measured behaviour is in
-  `VALIDATION.md` §8, including the wheelhouse command for a genuinely offline
+  `docs/validation.md` §5, including the wheelhouse command for a genuinely offline
   install.
 * The "three-minute quickstart" was never measured. It is now timed: **8.8 s**
   for `make-example` plus a full audit at 1000+1000 draws, 12.9 s including the
-  install (details and machine in `VALIDATION.md` §8).
+  install (details and machine in `docs/validation.md` §5).
 * "the same prediction matrix" was imprecise — the two shipped `.npy` files are
   the same underlying predictions re-expressed in two response spaces and are
   not byte-identical. Corrected everywhere.
 * The regeneration pipeline now computes uncertainty in **both** response
   spaces, so its per-pair numbers can be compared with the CLI's. They agree to
-  the last digit (`VALIDATION.md` §7). The superseded row-resample estimator is
+  the last digit (`docs/validation.md` §4). The superseded row-resample estimator is
   numerically unstable by construction — a last-bit difference in its input
   moves its quantiles by ~1e-3 — which is documented at the estimator and
   reported with a stated tolerance rather than hidden.

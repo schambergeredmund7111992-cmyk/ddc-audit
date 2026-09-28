@@ -1,5 +1,9 @@
 # DDC-Audit
 
+[![tests](https://github.com/schambergeredmund7111992-cmyk/ddc-audit/actions/workflows/tests.yml/badge.svg)](https://github.com/schambergeredmund7111992-cmyk/ddc-audit/actions/workflows/tests.yml)
+[![Python 3.10–3.12](https://img.shields.io/badge/python-3.10–3.12-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 **Calibrated auditing of drug discrimination in single-cell perturbation prediction.**
 
 A CPU-only pre-submission audit tool. It asks whether a model's stored predictions
@@ -42,7 +46,8 @@ pip download -d wheelhouse -r requirements.txt   # from a machine with network
 pip install --no-index --find-links wheelhouse . --no-build-isolation
 ```
 
-Requires Python ≥ 3.10. Dependencies are pinned in `pyproject.toml`
+Requires Python ≥ 3.10. Dependencies are pinned in both `pyproject.toml` and
+`requirements.txt`
 (numpy 2.2.5, scipy 1.15.3, pandas 2.3.3, matplotlib 3.10.9 — matplotlib only for
 the figures). The tool is **not** published on PyPI, so `pip install ddc-audit`
 will not work. A `Dockerfile` is included as a container **build configuration**;
@@ -144,10 +149,10 @@ text keeps them apart.
 ## Tests and measured timing
 
 ```bash
-python -m pytest -q          # 72 passed (~10 s)
+python -m pytest -q          # 73 passed when both optional evidence sources are present (~10 s)
 ```
 
-Two of the 72 are optional and are labelled rather than silently skipped:
+Two tests are optional and are labelled rather than silently skipped:
 `test_numerically_identical_to_reference_implementation` needs the research
 repository's `eval/metrics.py` importable (set `DDC_AUDIT_REFERENCE_REPO`), and
 `test_the_shipped_bundle_reproduces_the_documented_anchor_values` needs
@@ -176,7 +181,8 @@ python scripts/reproduce_evidence.py --out /tmp/repro --n-boot 1000 --n-perm 100
 Rebuilds both vehicle constructions from the shipped pseudobulks, aborts if the
 rebuild does not reproduce the shipped targets (it matches to `2.2e-07`), and
 classifies every cited quantity as **recomputed**, **differs**, or **needs an
-additional input**. See `evidence/README.md` and `docs/evidence_and_limitations.md`.
+additional input**. See `evidence/README.md`,
+`docs/evidence_and_limitations.md`, and `docs/validation.md`.
 
 ### Two printed values this repository does not reproduce
 

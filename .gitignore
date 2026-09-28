@@ -64,6 +64,7 @@ audit_*/
 repro_out/
 repro/
 out/
+.tmp_repro_review*/
 
 # ---- secrets and machine-local configuration: never commit these
 .env

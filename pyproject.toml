@@ -7,13 +7,12 @@ name = "ddc-audit"
 version = "0.2.1"
 description = "Pre-submission audit tool: does a single-cell perturbation prediction model actually distinguish drugs? Computes the drug-discrimination control (DDC) AUC, confidence intervals, permutation p-values, and the no-drug-information anchor from stored predictions alone."
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "Xichen Zhao" }, { name = "Guanxing Chen", email = "cgx510510@gmail.com" }]
 keywords = ["single-cell", "perturbation", "drug-response", "evaluation", "audit"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 dependencies = [
