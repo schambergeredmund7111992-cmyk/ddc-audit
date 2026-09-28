@@ -4,11 +4,18 @@
 [![Python 3.10–3.12](https://img.shields.io/badge/python-3.10–3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**Calibrated auditing of drug discrimination in single-cell perturbation prediction.**
+**High correlation does not mean a model learned the drug. DDC-Audit finds out
+whether it did.**
 
-A CPU-only pre-submission audit tool. It asks whether a model's stored predictions
-actually tell one held-out drug apart from another *in the same cellular
-context* — with no retraining, no model access, and no GPU.
+Single-cell perturbation models can look accurate under standard correlation
+metrics while producing nearly the same response for different compounds.
+DDC-Audit turns stored predictions into an evidence-backed drug-discrimination
+audit: it exposes prediction collapse, detects artificial signal introduced by
+response construction, and produces a calibrated report with uncertainty and
+statistical controls.
+
+Run it before submission, publication, or deployment. It needs only prediction
+files and a CPU — no retraining, model access, or GPU.
 
 ---
 
