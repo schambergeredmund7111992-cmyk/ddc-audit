@@ -1,0 +1,78 @@
+# ---- Python build and cache artefacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheelhouse/
+pip-wheel-metadata/
+
+# ---- test and coverage artefacts
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# ---- virtual environments
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ---- type checkers and linters
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+
+# ---- editor and OS state
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- notebook state
+.ipynb_checkpoints/
+
+# ---- LaTeX intermediates (documentation sources live under docs/)
+*.aux
+*.log
+*.out
+*.nav
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+texput.log
+
+# ---- audit output written into the working tree by mistake
+audit_out/
+audit_*/
+repro_out/
+repro/
+out/
+
+# ---- secrets and machine-local configuration: never commit these
+.env
+.env.*
+*.pem
+*.key
+*.p12
+credentials.json
+token.json
+secrets.yaml
+secrets.toml
+.netrc

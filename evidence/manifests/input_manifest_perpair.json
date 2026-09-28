@@ -1,0 +1,8 @@
+{
+  "response_space": "logFC against EACH PAIR'S OWN vehicle (the per-pair construction): logfc = log1p(treated pseudobulk) - log1p(that pair's control pseudobulk).",
+  "vehicle_construction": "per pair",
+  "vehicle_construction_detail": "One vehicle per (drug, cell line) pair, 150 matched control cells each, from the author's frozen split.",
+  "row_alignment": "positional; row i of every matrix matches row i of pair_order.csv",
+  "feature_names": "none supplied; the 3000 training-only HVGs in the release's split/gene_order.csv order",
+  "notes": "This is the construction the release's stored artifacts were built in. It is NOT the space of the paper's headline numbers; kept as the control."
+}

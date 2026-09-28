@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: "If you use DDC-Audit in your research, please cite the accompanying paper and this software."
+title: "DDC-Audit: calibrated auditing of drug discrimination in single-cell perturbation prediction"
+abstract: >-
+  A CPU-only pre-submission audit tool that asks whether a single-cell
+  perturbation model's stored predictions distinguish held-out drugs within the
+  same cellular context. It computes the drug-discrimination control (DDC) AUC,
+  a drug-clustered bootstrap interval, a within-cell-line permutation null, and a
+  construction-calibration check built from counts-space vehicle pseudobulks.
+  It is not a prediction model, a clinical tool, a drug-recommendation system, or
+  a cross-model leaderboard.
+type: software
+version: 0.2.1
+license: MIT
+repository-code: "https://github.com/schambergeredmund7111992-cmyk/ddc-audit"
+url: "https://github.com/schambergeredmund7111992-cmyk/ddc-audit"
+keywords:
+  - single-cell perturbation
+  - drug response prediction
+  - model evaluation
+  - drug-discrimination control
+  - reproducibility
+  - bioinformatics
+authors:
+  - given-names: Xichen
+    family-names: Zhao
+  - given-names: Guanxing
+    family-names: Chen
+preferred-citation:
+  type: article
+  title: "Beyond per-pair correlation: a drug-discrimination control exposes prediction collapse in single-cell multi-drug perturbation models"
+  authors:
+    - given-names: Xichen
+      family-names: Zhao
+    - given-names: Guanxing
+      family-names: Chen
+  status: submitted
+  year: 2026
+references:
+  - type: software
+    title: "cytobridge-benchmark: research repository for the drug-discrimination control study (frozen split, stored predictions, historical evidence)"
+    repository-code: "https://github.com/schambergeredmund7111992-cmyk/cytobridge-benchmark"
+    version: 1.0.3
+    doi: "10.5281/zenodo.21912287"
+    license: MIT
+    authors:
+      - given-names: Xichen
+        family-names: Zhao
+      - given-names: Guanxing
+        family-names: Chen

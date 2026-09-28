@@ -1,0 +1,65 @@
+{
+  "bundle": "code/regeneration/bundle",
+  "files": [
+    {
+      "file": "pair_order.csv",
+      "sha256": "70205957fe11a439c7c0db12a5ca3489f3d59a5396861104dd2b7485cabf08ee",
+      "bytes": 562
+    },
+    {
+      "file": "prediction_loss_only_perpair.npy",
+      "sha256": "f17266fbdeed74b6baf52e627e250ec74637cab57bf878c2d2aa0468eb54978d",
+      "bytes": 324128
+    },
+    {
+      "file": "prediction_loss_only_pooled.npy",
+      "sha256": "bfda6992bcbbcda0e53d4f298bd26c29451188098742725d0f15fd4abed7ab0b",
+      "bytes": 324128
+    },
+    {
+      "file": "pseudobulk_control.npy",
+      "sha256": "0da32e004089234c2ad0d979792fd064322ed5c4ee7b8fd99479f6300b6482af",
+      "bytes": 324128
+    },
+    {
+      "file": "pseudobulk_treated.npy",
+      "sha256": "a210c380a0e44a81be4a94eedd8d77714a50c305fcd44bbdcfc74baf9d169f10",
+      "bytes": 324128
+    },
+    {
+      "file": "target_perpair.npy",
+      "sha256": "1f2fe7674f6f5d3fca353e1a0782fe26b9b07b2cebcc640d614b7408809361ac",
+      "bytes": 324128
+    },
+    {
+      "file": "target_pooled.npy",
+      "sha256": "d9a45201b773aef0df54bb39cd7c176535858078d2c0051b171c8351dad8c29e",
+      "bytes": 324128
+    },
+    {
+      "file": "vehicle_profiles.npz",
+      "sha256": "e63c42efb6ddd448047fdd71aeae7147f4bb7c602acafb1a2d3b4fee0bd0ca37",
+      "bytes": 76298
+    },
+    {
+      "file": "vehicle_profiles_perpair_control.npy",
+      "sha256": "0da32e004089234c2ad0d979792fd064322ed5c4ee7b8fd99479f6300b6482af",
+      "bytes": 324128
+    },
+    {
+      "file": "vehicle_profiles_perpair_treated.npy",
+      "sha256": "a210c380a0e44a81be4a94eedd8d77714a50c305fcd44bbdcfc74baf9d169f10",
+      "bytes": 324128
+    },
+    {
+      "file": "vehicle_profiles_pooled_control.npy",
+      "sha256": "67c0f77cd246547434176842ef285c707c77e79f3afaa010b13dfbe25cb51f00",
+      "bytes": 324128
+    },
+    {
+      "file": "vehicle_profiles_pooled_treated.npy",
+      "sha256": "3115ed2336c1b47ca2b0d868faa28f264335bc0983bbcbdb6367f1d3392ea94a",
+      "bytes": 324128
+    }
+  ]
+}

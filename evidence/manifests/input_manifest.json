@@ -1,0 +1,8 @@
+{
+  "response_space": "logFC against ONE vehicle per cell line (the pooled construction): logfc = log1p(treated pseudobulk) - log1p(pooled vehicle pseudobulk).",
+  "vehicle_construction": "per cell line",
+  "vehicle_construction_detail": "One shared vehicle per cell line, estimated as the mean of that line's per-pair control pseudobulks from the author's frozen split (release_asoc/split/sciplex_test_control_counts.npy).",
+  "row_alignment": "positional; row i of every matrix matches row i of pair_order.csv. The meta file is never joined by key.",
+  "feature_names": "none supplied; the 3000 training-only HVGs in the release's split/gene_order.csv order (index 0..2999)",
+  "notes": "This is the space of the paper's headline numbers. The prediction matrix is the per-pair loss-only matrix converted with logfc_pooled = logfc_perpair + log1p(ctrl_pair) - log1p(ctrl_line)."
+}

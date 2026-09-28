@@ -1,0 +1,82 @@
+{
+  "source": "eval/metrics.py::drug_discrimination_score",
+  "source_repository": "github.com/schambergeredmund7111992-cmyk/cytobridge-benchmark",
+  "source_commit": "87189db29653d0ee760714c84f012e494e5e761a",
+  "source_sha256": "ae2784afe6d33d480c2d88df827f1549420bf47763bb3bcafa9a14c4a90af07d",
+  "generator": "tools/freeze_reference_metric.py",
+  "input_recipe": "rng = numpy.random.default_rng(1); cl = 3 cell lines x 9; true = rng.normal(size=(27, 500)); base = per-cell-line mean of true; pred = 0.03*true + 0.97*base + rng.normal(0, 0.35, (27, 500))",
+  "seed": 1,
+  "n_pairs": 27,
+  "n_genes": 500,
+  "cell_lines": [
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "A549",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "K562",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7",
+    "MCF7"
+  ],
+  "cases": [
+    {
+      "top_k": 50,
+      "metric": "pearson",
+      "specificity_auc": 0.8796296296296297,
+      "gap": 0.08097090954064289,
+      "on_diag_mean": 0.3091554767604576,
+      "off_diag_mean": 0.2281845672198147,
+      "wilcoxon_p_on_gt_off": 7.450580596923828e-08,
+      "our_specificity_auc": 0.8796296296296297
+    },
+    {
+      "top_k": 50,
+      "metric": "spearman",
+      "specificity_auc": 0.8379629629629629,
+      "gap": 0.08218142516816529,
+      "on_diag_mean": 0.30189827770285876,
+      "off_diag_mean": 0.2197168525346935,
+      "wilcoxon_p_on_gt_off": 6.556510925292969e-07,
+      "our_specificity_auc": 0.8379629629629629
+    },
+    {
+      "top_k": null,
+      "metric": "pearson",
+      "specificity_auc": 0.875,
+      "gap": 0.07322918048874996,
+      "on_diag_mean": 0.28911268885824176,
+      "off_diag_mean": 0.2158835083694918,
+      "wilcoxon_p_on_gt_off": 2.2351741790771484e-08,
+      "our_specificity_auc": 0.875
+    },
+    {
+      "top_k": 20,
+      "metric": "pearson",
+      "specificity_auc": 0.8287037037037037,
+      "gap": 0.0882388251549384,
+      "on_diag_mean": 0.31481796155934444,
+      "off_diag_mean": 0.22657913640440597,
+      "wilcoxon_p_on_gt_off": 5.21540641784668e-07,
+      "our_specificity_auc": 0.8287037037037037
+    }
+  ]
+}
