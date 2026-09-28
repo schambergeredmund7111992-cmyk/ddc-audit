@@ -12,6 +12,13 @@ from scipy import stats
 TOP_K = 50
 METRIC = "pearson"
 
+#: Two similarities count as tied when they differ by no more than this.
+#: Chosen to sit far above float64 rounding at these magnitudes (about
+#: 1e-16) and far below any difference a reader would call real (the
+#: shipped panels separate by ~1e-2). See the note in
+#: drug_discrimination_score for why a strict comparison is not portable.
+TIE_ATOL = 1e-12
+
 
 def _corr_vec(a: np.ndarray, b: np.ndarray, metric: str = "pearson") -> float:
     if metric == "pearson":
@@ -74,14 +81,24 @@ def drug_discrimination_score(
 
     A collapsed model sits near AUC 0.5; a drug-aware model approaches 1.0.
 
-    Ties. ``C[i, i] == C[i, j]`` is scored as non-discriminating (0), not as
-    a half win. On the shipped loss-only matrices this is exact rather than
-    approximate: the 27 anchors score in increments of 1/8 and none of the
-    216 off-diagonal similarities ties its diagonal, so half-counting ties
-    returns 0.5694 to the last digit as well. The distinction is documented
-    because it is not a general property -- an exactly collapsed predictor
-    ties everywhere and lands on 0.5 either way, but a partially tied panel
-    would not.
+    Ties. Two similarities count as tied when they differ by no more than
+    ``TIE_ATOL`` (1e-12, i.e. thousands of times the float64 rounding error at
+    these magnitudes), and a tie is scored as non-discriminating (0) rather
+    than as a half win.
+
+    The tolerance is not cosmetic. A strict ``>`` on mathematically equal
+    inputs is decided by BLAS reduction order: ``C[i, i]`` and ``C[i, j]``
+    accumulate the same products in different orders, so a backend is free to
+    return values that differ in the last bit. On the maintainers' Windows
+    build an exactly collapsed panel produces bit-identical entries and scores
+    0.0; the same code on macOS Accelerate produces last-bit differences and
+    scored 16 of 30 comparisons as wins. A tool whose whole purpose is to
+    recognise an exactly collapsed predictor cannot have its answer depend on
+    which BLAS is installed.
+
+    On the shipped loss-only matrices nothing changes: the 27 anchors score in
+    increments of 1/8 and none of the 216 off-diagonal similarities comes near
+    its diagonal, so this returns 0.5694 exactly as the strict rule did.
     """
     cl = np.asarray(cell_lines)
     pred = np.asarray(pred, float)
@@ -115,7 +132,7 @@ def drug_discrimination_score(
                 continue
             on_all.append(float(diag))
             off_all.append(float(np.mean(offs)))
-            auc_all.append(float(np.mean(diag > offs)))
+            auc_all.append(float(np.mean(diag - offs > TIE_ATOL)))
     on_arr = np.array(on_all)
     off_arr = np.array(off_all)
     out = {
@@ -232,5 +249,5 @@ def per_anchor_scores(
             offs = np.delete(C[position], position)
             offs = offs[np.isfinite(offs)]
             if offs.size:
-                out[i] = float(np.mean(C[position, position] > offs))
+                out[i] = float(np.mean(C[position, position] - offs > TIE_ATOL))
     return out

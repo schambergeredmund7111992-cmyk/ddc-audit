@@ -9,6 +9,41 @@ The evidence bundle is versioned with the software, because the two must not
 drift apart — the anchor a version computes depends on the construction it is
 given.
 
+## 0.2.1b — 2026-09-28
+
+### Ties are now decided by a tolerance, not by BLAS reduction order
+
+`specificity_auc` compared the diagonal with each off-diagonal entry using a
+strict `>`. When a predictor is *exactly* collapsed — every predicted profile in
+a cell line identical — those two quantities are mathematically equal, and the
+comparison is then decided by the order in which the products happen to be
+summed. A matrix product does not accumulate `C[i, i]` and `C[i, j]` the same
+way, so a backend is free to return entries differing in the last bit.
+
+Measured consequence: on Windows the structured 6-row test panel produces
+bit-identical entries and the anchor scored **0.0**; the same code on macOS
+Accelerate (ARM64, all three CI Python versions) produced last-bit differences
+and scored **16 of 30 comparisons as wins, 0.2667**. A tool whose entire purpose
+is to recognise an exactly collapsed predictor cannot have its answer depend on
+which BLAS is installed.
+
+Two similarities now count as tied when they differ by no more than
+`TIE_ATOL = 1e-12` — thousands of times the float64 rounding error at these
+magnitudes, and far below any difference a reader would call real (the shipped
+panels separate by ~1e-2). Ties remain non-discriminating; only the boundary
+moved. The same rule is applied in `per_anchor_scores`.
+
+**This changes no published number.** Every quantity in the README, the
+reproduction report and the evidence documentation was recomputed after the
+change and is identical to the last digit: pooled 0.5093, per-pair 0.5694,
+anchors 0.5000 / 0.9583, oracle 1.0000, permutation p 0.4026, bootstrap interval
+[0.3934, 0.6157], synthetic collapsed 0.4491. The shipped panels have margins
+around 1e-2, four orders of magnitude above the new tie band.
+
+Two tests cover it: the existing exact-collapse test now documents why a strict
+comparison is not portable, and `test_last_bit_noise_is_treated_as_a_tie_not_as_a_win`
+perturbs a diagonal entry by one ULP and asserts it is still a tie.
+
 ## 0.2.1a — 2026-09-28 (submission cleanup)
 
 Text and packaging only; no claim, formula, figure or result changed.

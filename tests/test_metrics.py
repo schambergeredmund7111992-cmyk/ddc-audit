@@ -128,8 +128,12 @@ def test_near_collapsed_predictor_stays_near_chance():
 def test_exact_ties_are_scored_as_losses_not_half_wins():
     """Documented behaviour: a tie is a miss, not half a win.
 
-    With identical prediction and truth rows every comparison ties; under the
-    strict rule the anchor wins nothing.
+    With identical prediction and truth rows every comparison ties; the anchor
+    wins nothing. This has to hold on every BLAS: ``C[i, i]`` and ``C[i, j]``
+    accumulate the same products in different orders, so the entries are only
+    mathematically equal, and a strict comparison would let the reduction order
+    decide the answer. On macOS Accelerate this test scored 0.2667 before the
+    tie tolerance was added.
     """
     rng = np.random.default_rng(3)
     base = rng.normal(size=(1, 60))
@@ -139,6 +143,31 @@ def test_exact_ties_are_scored_as_losses_not_half_wins():
     assert drug_discrimination_score(pred, true, cl)["specificity_auc"] == pytest.approx(
         0.0, abs=1e-12
     )
+
+
+def test_last_bit_noise_is_treated_as_a_tie_not_as_a_win():
+    """The regression the tie tolerance exists for.
+
+    Perturb one diagonal entry by a single float64 bit -- a difference no
+    computation can distinguish from the reduction-order noise a different BLAS
+    produces -- and the comparison must still count it as a tie, not a win.
+    """
+    from ddc_audit.metrics import TIE_ATOL, _corr_matrix
+
+    rng = np.random.default_rng(3)
+    base = rng.normal(size=(1, 60))
+    pred = np.repeat(base, 6, axis=0)
+    true = np.repeat(base, 6, axis=0)
+    cl = np.array(["A549"] * 6)
+    assert drug_discrimination_score(pred, true, cl)["specificity_auc"] == 0.0
+
+    C = _corr_matrix(pred, true, "pearson")
+    perturbed = np.nextafter(C, 0.0)          # one ULP below the diagonal
+    assert np.abs(C - perturbed).max() > 0     # the perturbation is real
+    assert np.abs(C - perturbed).max() < TIE_ATOL   # ... but far below the tie band
+
+    # a genuinely worse off-diagonal must still count as a win for the diagonal
+    assert np.mean(C[0, 0] - (C[0] - TIE_ATOL * 100) > TIE_ATOL) == 1.0
 
 
 def test_constant_prediction_row_does_not_crash():
