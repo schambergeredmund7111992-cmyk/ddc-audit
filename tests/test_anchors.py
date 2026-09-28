@@ -252,9 +252,20 @@ def test_the_shipped_bundle_reproduces_the_documented_anchor_values():
 
     import pandas as pd
 
-    bundle = Path(__file__).resolve().parents[1] / "evidence"
-    if not (bundle / "pair_order.csv").is_file():
-        pytest.skip("evidence bundle not present beside the package")
+    # Locate the evidence by content, not by a fixed depth: the tool ships both
+    # as the `ddc-audit` repository (evidence/ beside tests/) and inside the
+    # competition package (code/regeneration/bundle/), and it must skip cleanly
+    # when installed from a wheel or an sdist that carries no evidence at all.
+    here = Path(__file__).resolve()
+    bundle = next(
+        (q / rel
+         for q in here.parents
+         for rel in ("evidence", "regeneration/bundle", "code/regeneration/bundle")
+         if (q / rel / "pair_order.csv").is_file()),
+        None,
+    )
+    if bundle is None:
+        pytest.skip("evidence bundle not present in this installation")
     meta = pd.read_csv(bundle / "pair_order.csv")
     cl = meta["cell_line"].to_numpy()
     control = np.load(bundle / "vehicle_profiles_perpair_control.npy")
@@ -276,10 +287,17 @@ def test_the_shipped_bundle_reproduces_the_documented_anchor_values():
     # the pooled section must be handed a *pooled* vehicle: one row per cell
     # line. Handing it the per-pair controls is the contradiction the manifest
     # check now rejects, so the test loads the pooled files the bundle ships.
-    pooled_control = np.load(bundle / "vehicle_profiles_pooled_control.npy")
-    pooled_treated = np.load(bundle / "vehicle_profiles_pooled_treated.npy")
+    def _load(name):
+        path = bundle / name
+        return np.load(path) if path.is_file() else None
+
+    pooled_control = _load("vehicle_profiles_pooled_control.npy")
+    pooled_treated = _load("vehicle_profiles_pooled_treated.npy")
+    pooled_model = _load("prediction_loss_only_pooled.npy")
+    if pooled_control is None or pooled_treated is None or pooled_model is None:
+        pytest.skip("pooled vehicle files not present in this bundle")
     pooled_cal = construction_calibration(
-        np.load(bundle / "prediction_loss_only_pooled.npy"), pooled, cl,
+        pooled_model, pooled, cl,
         vehicle_profiles=pooled_control, vehicle_treated=pooled_treated,
         manifest={"vehicle_construction": "per cell line"},
     )

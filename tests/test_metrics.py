@@ -19,10 +19,19 @@ from ddc_audit.metrics import (
     per_pair_spearman,
 )
 
+# The reference implementation lives in the research evidence repository, not in
+# this package. Resolve it from the environment, from the usual checkout
+# location, or from a sibling of whichever root this file was installed under --
+# the standalone repository and the competition package differ in depth.
+_HERE = Path(__file__).resolve()
+_ROOT = next((q for q in _HERE.parents if (q / "pyproject.toml").is_file()),
+             _HERE.parent)
 CANDIDATE_REPOS = [
     os.environ.get("DDC_AUDIT_REFERENCE_REPO"),
     str(Path.home() / "cytobridge-benchmark"),
-    str(Path(__file__).resolve().parents[1].parent / "cytobridge-benchmark"),
+    str(_ROOT.parent / "cytobridge-benchmark"),
+    str(_ROOT.parents[1] / "cytobridge-benchmark"),
+    str(_ROOT.parents[2] / "cytobridge-benchmark"),
 ]
 
 
